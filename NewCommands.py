@@ -5,9 +5,12 @@
 
 # Version number: 0.0.0
 
-#Branch Not Equal (BNE)
+#########DO THESE############
 #Branch Less Than (BLT)
 #Branch Greater Than (BGT)
+
+########COMPLETED############
+#Branch Not Equal (BNE)
 #Logical Shift Left (LSL)
 #Logical Shift Right (LSR)
 #Bitwise AND (AND)
@@ -17,7 +20,7 @@
 
 EMPTY_STRING = ""
 HI_MEM = 20
-MAX_INT = 127  # 8 bits available for operand (two's complement integer)
+MAX_INT = 255  # 8 bits available for operand (two's complement integer)
 PC = 0
 ACC = 1
 STATUS = 2
@@ -139,7 +142,7 @@ def ExtractLabel(Instruction, LineNumber, Memory, SymbolTable):
 
 def ExtractOpCode(Instruction, LineNumber, Memory):
     if len(Instruction) > 9:
-        OpCodeValues = ["LDA", "STA", "LDA#", "HLT", "ADD", "JMP", "SUB", "CMP#", "BEQ", "SKP", "JSR", "RTN", "   "]
+        OpCodeValues = ["LDA", "STA", "LDA#", "HLT", "ADD", "JMP", "SUB", "CMP#", "BEQ", "BNE", "BGT", "BLT", "LSL", "LSR", "AND", "ORR", "EOR", "MVN", "SKP", "JSR", "RTN", "   "]
         Operation = Instruction[7:10]
         if len(Instruction) > 10:
             AddressMode = Instruction[10:11]
@@ -347,15 +350,15 @@ def ExecuteBLT():
 def ExecuteLSL(Memory, Registers, Address):
     Registers[ACC] = Registers[ACC] << Memory[Address].OperandValue
     Registers = SetFlags(Registers[ACC], Registers)
-    if Registers[STATUS] == ConvertToDecimal("001"):
-        ReportRunTimeError("Overflow", Registers)
+    #if Registers[STATUS] == ConvertToDecimal("001"):
+        #ReportRunTimeError("Overflow", Registers)
     return Registers
 
 def ExecuteLSR(Memory, Registers, Address):
     Registers[ACC] = Registers[ACC] >> Memory[Address].OperandValue
     Registers = SetFlags(Registers[ACC], Registers)
-    if Registers[STATUS] == ConvertToDecimal("001"):
-        ReportRunTimeError("Overflow", Registers)
+    #if Registers[STATUS] == ConvertToDecimal("001"):
+        #ReportRunTimeError("Overflow", Registers)
     return Registers
 
 def ExecuteAND(Memory, Registers, Address):
@@ -380,7 +383,7 @@ def ExecuteEOR(Memory, Registers, Address):
     return Registers
 
 def ExecuteMVN(Memory, Registers, Address):
-    Registers[ACC] = ~Memory[Address].OperandValue
+    Registers[ACC] = ~Registers[ACC]
     Registers = SetFlags(Registers[ACC], Registers)
     return Registers
 
