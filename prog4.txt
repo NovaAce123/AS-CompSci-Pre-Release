@@ -2,8 +2,9 @@
  NUM2:      5
  NUM3:      -1
  NUM4:      125
+ NUM5:      12
 START: LDA  NUM1    * test while loop
-WHILE: CMP# 12
+WHILE: CMP  NUM5
        BNE  WEND
        ADD  NUM2
        JMP  WHILE
